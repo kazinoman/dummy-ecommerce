@@ -10,15 +10,23 @@ interface IProducts {
 interface IProductsContext {
   totalPrice?: number;
   products: IProducts[];
-  addProducts?: (product: IProducts) => void;
-  removeProduct?: (product: IProducts) => void;
+  addProducts?: (product: IProducts) => boolean;
+  removeProduct?: (product: IProducts) => boolean;
+  increaseProduct?: (id: number) => void;
+  decreaseProduct?: (id: number, price: number) => void;
 }
 
 export const ProductContext = createContext<IProductsContext>({
   products: [],
-  addProducts: () => {},
-  removeProduct: () => {},
   totalPrice: 0,
+  addProducts: () => {
+    return false;
+  },
+  removeProduct: () => {
+    return false;
+  },
+  increaseProduct: () => {},
+  decreaseProduct: () => {},
 });
 
 export const useProductContext = () => useContext(ProductContext);

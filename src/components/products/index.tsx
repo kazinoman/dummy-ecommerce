@@ -5,7 +5,7 @@ import SingleProductsCard from "./singleProducts";
 export type SingleProducts = {
   id: number;
   title: string;
-  price: string;
+  price: any;
   images: string[];
   discountPercentage: number;
   count: number;

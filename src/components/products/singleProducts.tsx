@@ -4,6 +4,7 @@ import { SingleProducts } from "./index";
 import { Image } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import { useProductContext } from "@/context/products/productContext";
+import { Alert, Notification } from "@mantine/core";
 
 const SingleProductsCard: React.FC<SingleProducts> = ({
   discountPercentage,
@@ -14,16 +15,22 @@ const SingleProductsCard: React.FC<SingleProducts> = ({
   count,
 }) => {
   //   console.log(title, price, id);
+  const [showAlert, setShowAlert] = React.useState<boolean>(false);
   const { products, addProducts } = useProductContext();
-  console.log(products);
+  // console.log(products);
   const handleProduct = () => {
     if (addProducts) {
-      addProducts({ id: id, name: title, price: price, quantity: count });
+      const res = addProducts({ id: id, name: title, price: price, quantity: count + 1 });
+      setShowAlert(res);
     }
   };
 
+  if (showAlert) {
+    setTimeout(() => setShowAlert(false), 3000);
+  }
+
   return (
-    <div className="flex flex-col w-[250px] border-2 p-2 rounded-lg  shadow-xl hover:shadow-sm hover:rounded-none duration-500">
+    <div className="flex flex-col w-[250px] border-[1.5px] p-2 rounded-lg  shadow-xl hover:shadow-sm hover:rounded-none duration-500">
       <Image
         maw={240}
         mx="auto"
@@ -39,12 +46,15 @@ const SingleProductsCard: React.FC<SingleProducts> = ({
         <h2 className="font-thin">${price}</h2>
       </div>
       <button
-        className="flex flex-row gap-2 p-2 mt-4 border-2 items-center justify-center rounded-lg bg-black text-white"
+        className="flex flex-row gap-2 p-2 mt-4  items-center justify-center rounded-lg bg-black text-white"
         onClick={handleProduct}
       >
         <span className="text-xs">Buy now </span>
         <Icon icon="mdi:cart" className="h-4 w-4 " />
       </button>
+      {showAlert && (
+        <Notification className="absolute top-10 right-5">Product added successfully.</Notification>
+      )}
     </div>
   );
 };
